@@ -1,0 +1,6 @@
+H:\Prog\ProjetQuarto\ProjetQuarto\bin\Debug\ProjetQuarto.exe.config
+H:\Prog\ProjetQuarto\ProjetQuarto\bin\Debug\ProjetQuarto.exe
+H:\Prog\ProjetQuarto\ProjetQuarto\bin\Debug\ProjetQuarto.pdb
+H:\Prog\ProjetQuarto\ProjetQuarto\obj\Debug\ProjetQuarto.csprojResolveAssemblyReference.cache
+H:\Prog\ProjetQuarto\ProjetQuarto\obj\Debug\ProjetQuarto.exe
+H:\Prog\ProjetQuarto\ProjetQuarto\obj\Debug\ProjetQuarto.pdb
