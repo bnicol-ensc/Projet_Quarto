@@ -9,7 +9,6 @@ namespace ProjetQuarto
     class Program
     {
         public const int TAILLE = 4;
-        public static int nbPiecesRestantes = 16;
         public static bool partieGagnee = false;
         public struct Piece
         {
@@ -250,6 +249,16 @@ namespace ProjetQuarto
             }
             return plein;
         }
+        public static int CompterPiecesRestantesPioche()
+        {
+            int nbPiecesRestantes = 0;
+            for (int i = 0; i < pioche.Length; i++)
+            {
+                if (!pioche[i].pieceNulle)
+                    nbPiecesRestantes++;
+            }
+            return nbPiecesRestantes;
+        }
 
 
         // ***************************
@@ -270,7 +279,7 @@ namespace ProjetQuarto
         public static int DonnerPieceAuJoueur()
         {
             Random rand = new Random();
-            int nPiece = rand.Next(nbPiecesRestantes); // on choisit un numéro dans le nombre de pièces restantes
+            int nPiece = rand.Next(CompterPiecesRestantesPioche()); // on choisit un numéro dans le nombre de pièces restantes
 
             bool trouve = false;
             int i = 0;
@@ -342,7 +351,7 @@ namespace ProjetQuarto
 
         public static bool DemanderSiQuarto()
         {
-            Console.WriteLine("Voyez-vous un QUARTO (alignement de pièces ayant toutes une caractéristiques en commun) ? [O/N]");
+            Console.WriteLine("Voyez-vous un QUARTO (alignement de 4 pièces ayant toutes une caractéristique en commun, en ligne, colonne ou diagonale) ? [O/N]");
             return (Console.ReadLine() == "O");
         }
         // TODO LES 4 FONCTIONS SUIVANTES NE SONT PAS OPTIMISEES, ON CHERCHE UN QUARTO SUR TOUS LES CRITERES A LA FOIS, on pourrait les chercher les uns après les autres et arrêter dès qu'on trouve un quarto sur un critère
@@ -473,11 +482,21 @@ namespace ProjetQuarto
 
             AfficherPlateau();
             bool quartoJoueur = DemanderSiQuarto();
-            if (quartoJoueur && ChercherQuarto(emplacement[0], emplacement[1]))
+            bool quartoOrdi = ChercherQuarto(emplacement[0], emplacement[1]);
+            if (quartoJoueur && quartoOrdi)
             {
-                Console.WriteLine("Bravo, il y a bien un quarto !");
+                Console.WriteLine("Bravo, il y a bien un quarto, vous avez gagné !");
                 partieGagnee = true;
             }
+            else if (quartoOrdi)
+            {
+                Console.WriteLine("Vous avez déclaré qu'il n'y avait pas de quarto mais l'ordinateur en a trouvé un, donc l'ordinateur a gagné !");
+                partieGagnee = true;
+            }
+            else if (quartoJoueur)
+                Console.WriteLine("Désolé, il n'y a pas de quarto ou l'ordinateur ne trouve pas votre quarto. La partie continue.");
+            else
+                Console.WriteLine("Vous avez déclaré qu'il n'y avait pas de quarto. La partie continue.");
         }
         public static void DonnerTourDeJeu(int numJoueur)
         {
@@ -494,8 +513,8 @@ namespace ProjetQuarto
         }
         public static void Jouer()
         {
-            Console.WriteLine("Quel est votre nom ?");
-            string nomJoueur = Console.ReadLine();
+            /*Console.WriteLine("Quel est votre nom ?");
+            string nomJoueur = Console.ReadLine();*/
 
             Console.WriteLine("Tirage au sort du joueur qui va commencer la partie...");
             Random rand = new Random();
@@ -506,8 +525,7 @@ namespace ProjetQuarto
                 DonnerTourDeJeu(numJoueur);
                 numJoueur = (numJoueur + 1) % 2;
             }
-            while (nbPiecesRestantes > 0 && !partieGagnee);
-            // penser à nbPiecesRestantes
+            while (!TesterPlateauPlein() && !partieGagnee);
         }
 
 
