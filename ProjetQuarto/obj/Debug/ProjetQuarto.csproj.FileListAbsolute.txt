@@ -4,3 +4,9 @@ H:\Prog\ProjetQuarto\ProjetQuarto\bin\Debug\ProjetQuarto.pdb
 H:\Prog\ProjetQuarto\ProjetQuarto\obj\Debug\ProjetQuarto.csprojResolveAssemblyReference.cache
 H:\Prog\ProjetQuarto\ProjetQuarto\obj\Debug\ProjetQuarto.exe
 H:\Prog\ProjetQuarto\ProjetQuarto\obj\Debug\ProjetQuarto.pdb
+H:\Prog\ProjetQuartoGit\Projet_Quarto\ProjetQuarto\bin\Debug\ProjetQuarto.exe.config
+H:\Prog\ProjetQuartoGit\Projet_Quarto\ProjetQuarto\obj\Debug\ProjetQuarto.exe
+H:\Prog\ProjetQuartoGit\Projet_Quarto\ProjetQuarto\obj\Debug\ProjetQuarto.pdb
+H:\Prog\ProjetQuartoGit\Projet_Quarto\ProjetQuarto\bin\Debug\ProjetQuarto.exe
+H:\Prog\ProjetQuartoGit\Projet_Quarto\ProjetQuarto\bin\Debug\ProjetQuarto.pdb
+H:\Prog\ProjetQuartoGit\Projet_Quarto\ProjetQuarto\obj\Debug\ProjetQuarto.csprojResolveAssemblyReference.cache
