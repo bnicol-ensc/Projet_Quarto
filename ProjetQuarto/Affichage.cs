@@ -110,5 +110,22 @@ namespace ProjetQuarto
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine();
         }
+
+
+
+        public static string RecupEntreeJoueur()
+        {
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            string message = Console.ReadLine();
+            Console.ForegroundColor = ConsoleColor.Gray;
+            return message;
+        }
+        /*
+        public static void ParlerOrdi(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
+            Console.WriteLine(message);
+            Console.ForegroundColor = ConsoleColor.Gray;
+        }*/
     }
 }

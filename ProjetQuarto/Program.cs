@@ -39,8 +39,6 @@ namespace ProjetQuarto
             }
             AfficherPlateau();*/
             Jeu.Jouer();
-
-            Console.ReadLine();
         }
     }
 }

@@ -18,11 +18,11 @@ namespace ProjetQuarto
         {
             Affichage.AfficherPioche();
             Console.WriteLine("Quelle pièce voulez-vous donner à l'ordinateur ? Veuillez entrer le numéro de la pièce.");
-            int piece = int.Parse(Console.ReadLine());
+            int piece = int.Parse(Affichage.RecupEntreeJoueur());
             while (piece < 0 || piece > 15 || Program.pioche[piece].pieceNulle)
             {
                 Console.WriteLine("La pièce que vous avez choisie n'est pas dans le tableau. Entrez un numéro de pièce valide.");
-                piece = int.Parse(Console.ReadLine());
+                piece = int.Parse(Affichage.RecupEntreeJoueur());
             }
             return piece;
         }
@@ -55,16 +55,16 @@ namespace ProjetQuarto
         {
             Console.WriteLine("Où voulez-vous placer la pièce ?");
             Console.Write("X [1;" + Program.TAILLE + "] : ");
-            int x = int.Parse(Console.ReadLine()) - 1;
+            int x = int.Parse(Affichage.RecupEntreeJoueur()) - 1;
             Console.Write("Y [1;" + Program.TAILLE + "] : ");
-            int y = int.Parse(Console.ReadLine()) - 1;
+            int y = int.Parse(Affichage.RecupEntreeJoueur()) - 1;
             while (!Program.plateau[x, y].pieceNulle)
             {
                 Console.WriteLine("Cette case est déjà prise. Entrez une nouvelle case.");
                 Console.Write("X : ");
-                x = int.Parse(Console.ReadLine()) - 1;
+                x = int.Parse(Affichage.RecupEntreeJoueur()) - 1;
                 Console.Write("Y : ");
-                y = int.Parse(Console.ReadLine()) - 1;
+                y = int.Parse(Affichage.RecupEntreeJoueur()) - 1;
             }
 
             // Une fois que le joueur a donné un x et un y correspondant à une case vide, on place la pièce sur cette case et on enlève la pièce de la pioche
@@ -102,7 +102,7 @@ namespace ProjetQuarto
         public static bool DemanderSiQuarto()
         {
             Console.WriteLine("Voyez-vous un QUARTO (alignement de 4 pièces ayant toutes une caractéristique en commun, en ligne, colonne ou diagonale) ? [O/N]");
-            return ((Console.ReadLine()).ToUpper() == "O");
+            return ((Affichage.RecupEntreeJoueur()).ToUpper() == "O");
         }
 
         public static void JouerOrdi()
@@ -162,19 +162,19 @@ namespace ProjetQuarto
         public static void Quitter()
         {
             Console.WriteLine("Voulez-vous quitter la partie ? [O/N]");
-            Program.finPartie = ((Console.ReadLine()).ToUpper() == "O");
+            Program.finPartie = Affichage.RecupEntreeJoueur().ToUpper() == "O";
 
             if (Program.finPartie)
             {
                 Console.WriteLine("Voulez-vous sauvegarder la partie ? [O/N]");
-                if ((Console.ReadLine()).ToUpper() == "O")
+                if (Affichage.RecupEntreeJoueur().ToUpper() == "O")
                     Outils.SauvegarderPartie();
             }
         }
         public static void Jouer()
         {
             /*Console.WriteLine("Quel est votre nom ?");
-            string nomJoueur = Console.ReadLine();*/
+            string nomJoueur = Affichage.RecupEntreeJoueur();*/
 
             Console.WriteLine("Tirage au sort du joueur qui va commencer la partie...");
             Random rand = new Random();
