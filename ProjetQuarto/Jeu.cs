@@ -105,6 +105,35 @@ namespace ProjetQuarto
             return ((Affichage.RecupEntreeJoueur()).ToUpper() == "O");
         }
 
+        public static bool VerifierQuartoJoueur(int x, int y)
+        {
+            Console.WriteLine("Sur quelle dimension voyez-vous le quarto ? TODO boucle qui vérifie bonne saisie [ligne/colonne/diag1/diag2] (diag1 = diagonale de gauche à droite, diag2 = diagonale de droite à gauche)");
+            string dimension = Affichage.RecupEntreeJoueur();
+            Console.WriteLine("Sur quel critère ? [couleur/forme/hauteur/remplie]");
+            string critere = Affichage.RecupEntreeJoueur();
+
+            bool quartoOrdi = false;
+
+            if (dimension == "ligne" || dimension == "colonne" || dimension == "diag1" || dimension == "diag2")
+            {
+                quartoOrdi = Outils.ChercherQuartoOrientation(x, y, dimension, critere);
+            }
+            else
+            {
+                Console.WriteLine("Valeur de dimension invalide");
+            }
+            
+            if (quartoOrdi)
+            {
+                Console.WriteLine("Bravo, il y a bien un quarto, vous avez gagné !");
+                Program.finPartie = true;
+            }
+            else
+                Console.WriteLine("Désolé, il n'y a pas de quarto ou l'ordinateur ne trouve pas votre quarto. La partie continue.");
+
+            return quartoOrdi;
+        }
+
         public static void JouerOrdi()
         {
             int numPiece = DemanderPieceAuJoueur();
@@ -129,19 +158,9 @@ namespace ProjetQuarto
 
             Affichage.AfficherPlateau();
             bool quartoJoueur = DemanderSiQuarto();
-            bool quartoOrdi = Outils.ChercherQuarto(emplacement[0], emplacement[1]);
-            if (quartoJoueur && quartoOrdi)
-            {
-                Console.WriteLine("Bravo, il y a bien un quarto, vous avez gagné !");
-                Program.finPartie = true;
-            }
-            else if (quartoOrdi)
-            {
-                Console.WriteLine("Vous avez déclaré qu'il n'y avait pas de quarto mais l'ordinateur en a trouvé un, donc l'ordinateur a gagné !");
-                Program.finPartie = true;
-            }
-            else if (quartoJoueur)
-                Console.WriteLine("Désolé, il n'y a pas de quarto ou l'ordinateur ne trouve pas votre quarto. La partie continue.");
+
+            if (quartoJoueur)
+                VerifierQuartoJoueur(emplacement[0], emplacement[1]);
             else
                 Console.WriteLine("Vous avez déclaré qu'il n'y avait pas de quarto. La partie continue.");
         }

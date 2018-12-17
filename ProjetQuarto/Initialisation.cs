@@ -50,9 +50,9 @@ namespace ProjetQuarto
 
                 // initialisation forme
                 if (i % 4 == 0 || i % 4 == 1)
-                    p.forme = '*';
+                    p.forme = 'o';
                 else
-                    p.forme = '+';
+                    p.forme = 'x';
 
                 // initialisation rempli ou non
                 if (i % 2 == 0)
