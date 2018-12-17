@@ -8,6 +8,11 @@ namespace ProjetQuarto
 {
     class Affichage
     {
+        public static bool DemanderRecupererPartie()
+        {
+            Console.WriteLine("Voulez-vous reprendre la dernière partie en cours ? [O/N]");
+            return RecupEntreeJoueur().ToUpper() == "O";
+        }
         public static void AfficherPlateau()
         {
             string separateurLigne = " ***********************";

@@ -15,7 +15,13 @@ namespace ProjetQuarto
                 for (int j = 0; j < Program.TAILLE; j++)
                 {
                     Program.Piece p = new Program.Piece();
+                    // Initialisation de la pièce avec des valeurs quelconques (elle ne sera jamais affichée)
                     p.pieceNulle = true;
+                    p.couleur = ConsoleColor.Black;
+                    p.hauteur = 0;
+                    p.forme = '-';
+                    p.remplie = false;
+
                     Program.plateau[i, j] = p;
                 }
             }

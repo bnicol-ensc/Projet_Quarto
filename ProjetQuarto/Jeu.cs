@@ -176,15 +176,19 @@ namespace ProjetQuarto
             /*Console.WriteLine("Quel est votre nom ?");
             string nomJoueur = Affichage.RecupEntreeJoueur();*/
 
-            Console.WriteLine("Tirage au sort du joueur qui va commencer la partie...");
-            Random rand = new Random();
-            int numJoueur = rand.Next(2);
+            if (Program.tourJoueur == -1)
+            {
+                Console.WriteLine("Tirage au sort du joueur qui va commencer la partie...");
+                Random rand = new Random();
+                Program.tourJoueur = rand.Next(2);
+            }
 
             do
             {
-                DonnerTourDeJeu(numJoueur);
-                numJoueur = (numJoueur + 1) % 2;
-                Quitter();                                                      //Demander au joueur s'il souhaite quitter la partie en cours
+                DonnerTourDeJeu(Program.tourJoueur);
+                Program.tourJoueur = (Program.tourJoueur + 1) % 2;
+                if (!Outils.TesterPlateauPlein() && !Program.finPartie)
+                    Quitter(); // Demander au joueur s'il souhaite quitter la partie en cours
             }
             while (!Outils.TesterPlateauPlein() && !Program.finPartie);
         }
