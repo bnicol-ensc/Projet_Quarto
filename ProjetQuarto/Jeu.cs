@@ -18,11 +18,11 @@ namespace ProjetQuarto
         {
             Affichage.AfficherPioche();
             Console.WriteLine("Quelle pièce voulez-vous donner à l'ordinateur ? Veuillez entrer le numéro de la pièce.");
-            int piece = int.Parse(Affichage.RecupEntreeJoueur());
+            int piece = int.Parse(Saisie.SaisieJoueur());
             while (piece < 0 || piece > 15 || Program.pioche[piece].pieceNulle)
             {
                 Console.WriteLine("La pièce que vous avez choisie n'est pas dans le tableau. Entrez un numéro de pièce valide.");
-                piece = int.Parse(Affichage.RecupEntreeJoueur());
+                piece = int.Parse(Saisie.SaisieJoueur()); // TODO on pourrait éventuellement mettre cette vérification dans Saisie.cs
             }
             return piece;
         }
@@ -55,16 +55,16 @@ namespace ProjetQuarto
         {
             Console.WriteLine("Où voulez-vous placer la pièce ?");
             Console.Write("X [1;" + Program.TAILLE + "] : ");
-            int x = int.Parse(Affichage.RecupEntreeJoueur()) - 1;
+            int x = int.Parse(Saisie.SaisieJoueur()) - 1;
             Console.Write("Y [1;" + Program.TAILLE + "] : ");
-            int y = int.Parse(Affichage.RecupEntreeJoueur()) - 1;
+            int y = int.Parse(Saisie.SaisieJoueur()) - 1;
             while (!Program.plateau[x, y].pieceNulle)
             {
                 Console.WriteLine("Cette case est déjà prise. Entrez une nouvelle case.");
                 Console.Write("X : ");
-                x = int.Parse(Affichage.RecupEntreeJoueur()) - 1;
+                x = int.Parse(Saisie.SaisieJoueur()) - 1;
                 Console.Write("Y : ");
-                y = int.Parse(Affichage.RecupEntreeJoueur()) - 1;
+                y = int.Parse(Saisie.SaisieJoueur()) - 1;
             }
 
             // Une fois que le joueur a donné un x et un y correspondant à une case vide, on place la pièce sur cette case et on enlève la pièce de la pioche
@@ -102,26 +102,15 @@ namespace ProjetQuarto
         public static bool DemanderSiQuarto()
         {
             Console.WriteLine("Voyez-vous un QUARTO (alignement de 4 pièces ayant toutes une caractéristique en commun, en ligne, colonne ou diagonale) ? [O/N]");
-            return ((Affichage.RecupEntreeJoueur()).ToUpper() == "O");
+            return ((Saisie.SaisieJoueur()).ToUpper() == "O");
         }
-
+        
         public static bool VerifierQuartoJoueur(int x, int y)
         {
-            Console.WriteLine("Sur quelle dimension voyez-vous le quarto ? TODO boucle qui vérifie bonne saisie [ligne/colonne/diag1/diag2] (diag1 = diagonale de gauche à droite, diag2 = diagonale de droite à gauche)");
-            string dimension = Affichage.RecupEntreeJoueur();
-            Console.WriteLine("Sur quel critère ? [couleur/forme/hauteur/remplie]");
-            string critere = Affichage.RecupEntreeJoueur();
+            string dimension = Saisie.SaisieDimension();
+            string critere = Saisie.SaisieCritere();
 
             bool quartoOrdi = false;
-
-            if (dimension == "ligne" || dimension == "colonne" || dimension == "diag1" || dimension == "diag2")
-            {
-                quartoOrdi = Outils.ChercherQuartoOrientation(x, y, dimension, critere);
-            }
-            else
-            {
-                Console.WriteLine("Valeur de dimension invalide");
-            }
             
             if (quartoOrdi)
             {
@@ -178,18 +167,6 @@ namespace ProjetQuarto
             }
         }
 
-        public static void Quitter()
-        {
-            Console.WriteLine("Voulez-vous quitter la partie ? [O/N]");
-            Program.finPartie = Affichage.RecupEntreeJoueur().ToUpper() == "O";
-
-            if (Program.finPartie)
-            {
-                Console.WriteLine("Voulez-vous sauvegarder la partie ? [O/N]");
-                if (Affichage.RecupEntreeJoueur().ToUpper() == "O")
-                    Outils.SauvegarderPartie();
-            }
-        }
         public static void Jouer()
         {
             /*Console.WriteLine("Quel est votre nom ?");
@@ -207,9 +184,13 @@ namespace ProjetQuarto
                 DonnerTourDeJeu(Program.tourJoueur);
                 Program.tourJoueur = (Program.tourJoueur + 1) % 2;
                 if (!Outils.TesterPlateauPlein() && !Program.finPartie)
-                    Quitter(); // Demander au joueur s'il souhaite quitter la partie en cours
+                    Sauvegarde.SauvegarderPartie(); // On sauvegarde la partie à chaque tour de jeu TODO modifier le fichier de sauvegarde au lieu de le refaire à chaque fois
             }
             while (!Outils.TesterPlateauPlein() && !Program.finPartie);
+
+            // Si on arrive ici, la partie est finie (si le joueur quitte la partie en cours, c'est qu'il a arrêté le programme avant d'arriver ici)
+            // Donc on supprime ici le fichier de sauvegarde, car on ne souhaite pas sauvegarder une partie déjà terminer
+            Sauvegarde.SupprimerFichierSauvegarde();
         }
     }
 }

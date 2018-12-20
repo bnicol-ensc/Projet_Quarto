@@ -44,11 +44,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Affichage.cs" />
+    <Compile Include="Sauvegarde.cs" />
     <Compile Include="Initialisation.cs" />
     <Compile Include="Jeu.cs" />
     <Compile Include="Outils.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Saisie.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

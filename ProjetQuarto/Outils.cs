@@ -174,45 +174,7 @@ namespace ProjetQuarto
                 || (x != y && ChercherQuartoOrientation(x, y, "diag1")) // on vérifie qu'on est sur la diagonale de gauche à droite avant de tester cette diagonale TODO vérifier l'ordre dans lequel sont testées les conditions
                 || (x != Program.TAILLE - y - 1 && ChercherQuartoOrientation(x, y, "diag2")); // on vérifie qu'on est sur la diagonale de droite à gauche avant de tester cette diagonale TODO idem au-dessus
         }
-
-        public static void SauvegarderPartie()
-        {
-            string nomDossier = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
-            StreamWriter fichierSauvegarde = new StreamWriter(nomDossier + "\\sauvegarde" + ".csv");
-            //using (FileStream fichierSauvegarde = new FileStream(nomDossier + "\\sauvegarde" + ".csv", FileMode.Create))
-            //{
-                fichierSauvegarde.WriteLine(DateTime.Now.ToString("yyyyMMddHHmmss"));
-                fichierSauvegarde.WriteLine("pioche");
-                fichierSauvegarde.WriteLine("pieceNulle;couleur;hauteur;forme;remplie");
-                for (int i = 0; i < 16; i++)
-                {
-                    Program.Piece p = Program.pioche[i];
-                    fichierSauvegarde.Write(p.pieceNulle + ";");
-                    fichierSauvegarde.Write(p.couleur + ";");
-                    fichierSauvegarde.Write(p.hauteur + ";");
-                    fichierSauvegarde.Write(p.forme + ";");
-                    fichierSauvegarde.Write(p.remplie + "\n");
-                }
-                fichierSauvegarde.WriteLine("plateau");
-                for (int i = 0; i < Program.TAILLE; i++)
-                {
-                    for (int j = 0; j < Program.TAILLE; j++)
-                    {
-                        Program.Piece p = Program.plateau[i, j];
-                        fichierSauvegarde.Write(p.pieceNulle + ";");
-                        fichierSauvegarde.Write(p.couleur + ";");
-                        fichierSauvegarde.Write(p.hauteur + ";");
-                        fichierSauvegarde.Write(p.forme + ";");
-                        fichierSauvegarde.Write(p.remplie + "\n");
-                    }
-                }
-                fichierSauvegarde.WriteLine("tourJoueur");
-                fichierSauvegarde.WriteLine(Program.tourJoueur);
-
-                fichierSauvegarde.Close();
-            //}
-        }
-
+        
         public static Program.Piece ConvertirStringPiece(string[] ligne)
         {
             Program.Piece p = new Program.Piece();
@@ -223,44 +185,6 @@ namespace ProjetQuarto
             p.remplie = ligne[4] == "True";
 
             return p;
-        }
-        public static bool RecupererPartie()
-        {
-            string nomDossier = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
-            string nomFichier = nomDossier + "\\sauvegarde.csv";
-            string[] fichiers = Directory.GetFiles(nomDossier);
-            if (fichiers.Contains(nomFichier) && Affichage.DemanderRecupererPartie()) // On vérifie qu'il y a une dernière partie en cours avant de demander au joueur s'il veut la reprendre
-            {
-                string fichier = fichiers[0];
-                using (StreamReader sr = new StreamReader(nomFichier))
-                {
-                    string ligne;
-                    int cpt = 0;
-                    while ((ligne = sr.ReadLine()) != null)
-                    {
-                        string[] valeurs = ligne.Split(';');
-                        if (cpt > 2 && cpt < 19)
-                        {
-                            Program.pioche[cpt - 3] = ConvertirStringPiece(valeurs);
-                        }
-                        
-                        else if (cpt > 19 && cpt < 36)
-                        {
-                            int posPlateau = cpt - 20;
-                            Program.plateau[posPlateau / Program.TAILLE, posPlateau % Program.TAILLE] = ConvertirStringPiece(valeurs);
-                        }
-
-                        else if (cpt > 36)
-                        {
-                            Program.tourJoueur = int.Parse(valeurs[0]);
-                        }
-
-                        cpt++;
-                    }
-                }
-                return true;
-            }
-            return false;
         }
     }
 }

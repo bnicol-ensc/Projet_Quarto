@@ -27,7 +27,7 @@ namespace ProjetQuarto
         {
             Console.WriteLine("Projet QUARTO --- NICOL - MORELLE\n\n");
 
-            bool reprendrePartie = Outils.RecupererPartie();
+            bool reprendrePartie = Sauvegarde.RecupererPartie();
 
             if (!reprendrePartie)
             {
