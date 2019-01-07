@@ -10,14 +10,10 @@ namespace ProjetQuarto
 
         public static int[] PlacerPieceOrdiStrategie(int numPiece) // renvoie la position [x,y] de l'emplacement choisi
         {
-            // On essaye d'appliquer d'abord la meilleure stratégie possible, puis la seconde, et si aucune des deux ne permet de trouver un emplacement (pas possible de faire un quarto ou de bloquer le joueur), on joue au hasard
+            // On essaye d'appliquer d'abord la meilleure stratégie possible, et si elle ne permet de trouver un emplacement (pas possible de faire un quarto), on joue au hasard
             int[] emplacement = ChercherEmplacementFaireQuarto(numPiece);
             if (emplacement[0] == -1)
-            {
-                emplacement = ChercherEmplacementEmpecherQuarto(numPiece);
-                if (emplacement[0] == -1)
-                    emplacement = ChercherEmplacementHasard();
-            }
+                emplacement = ChercherEmplacementHasard();
 
             int x = emplacement[0];
             int y = emplacement[1];
@@ -50,11 +46,6 @@ namespace ProjetQuarto
         }
 
         public static int[] ChercherEmplacementFaireQuarto(int numPiece) // cherche un emplacement qui permettrait de faire un quarto, renvoie (-1,-1) si n'en trouve pas
-        {
-            return new int[] { -1, -1 }; // TODO compléter la fonction
-        }
-
-        public static int[] ChercherEmplacementEmpecherQuarto(int numPiece) // cherche un emplacement qui empêcherait le joueur de faire un quarto
         {
             return new int[] { -1, -1 }; // TODO compléter la fonction
         }
