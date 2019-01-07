@@ -41,15 +41,103 @@ namespace ProjetQuarto
                 y = rand.Next(4);
             }
             while (!Program.plateau[x, y].pieceNulle); // tant que l'emplacement sur lequel on veut mettre la pièce n'est pas vide, on en cherche un autre
-            
+
             return new int[] { x, y };
         }
 
         public static int[] ChercherEmplacementFaireQuarto(int numPiece) // cherche un emplacement qui permettrait de faire un quarto, renvoie (-1,-1) si n'en trouve pas
         {
-            return new int[] { -1, -1 }; // TODO compléter la fonction
+            int[] emplacement = ChercherEmplacementFaireQuartoLigne(numPiece);
+            if (emplacement[0] == -1) // si on n'a pas trouvé de quarto possible pour une ligne
+            {
+                emplacement = ChercherEmplacementFaireQuartoColonne(numPiece);
+                if (emplacement[0] == -1) // si on n'a pas trouvé de quarto possible pour une colonne
+                {
+                    // TODO idem pour les diags
+                }
+            }
+
+            return emplacement; // TODO compléter la fonction
         }
-        
+
+        // TODO peut-être rassembler les fonctions suivantes ?
+        public static int[] ChercherEmplacementFaireQuartoLigne(int numPiece)
+        {
+            Program.Piece pieceAPlacer = Program.pioche[numPiece];
+            int x = 0;
+            int[] emplacement = { -1, -1 };
+
+            while (emplacement[0] == -1 && x < Program.TAILLE) // tant qu'on n'a pas trouvé d'emplacement et qu'on n'a pas parcouru toutes les lignes
+            {
+                if (Outils.CompterNbPiecesLigne(x) == 3)
+                {
+                    // On remplit un tableau contenant les 3 pièces de la ligne et la pièce qu'on doit placer
+                    Program.Piece[] pieces = new Program.Piece[4];
+                    pieces[0] = pieceAPlacer;
+                    int cpt = 1;
+                    int yEmplacementVideLigne = -1; // on en profite pour chercher quel emplacement de la ligne est vide
+                    for (int y = 0; y < Program.TAILLE; y++)
+                    {
+                        Program.Piece piece = Program.plateau[x, y];
+                        if (!piece.pieceNulle)
+                        {
+                            pieces[cpt] = piece;
+                            cpt++;
+                        }
+                        else
+                            yEmplacementVideLigne = y;
+                    }
+
+                    if (Outils.ComparerPieces(pieces)) // si cette fonction renvoie vrai, les 4 pièces ont un point commun donc on peut faire un quarto en plaçant la pièce sur cette ligne
+                    {
+                        emplacement[0] = x;
+                        emplacement[1] = yEmplacementVideLigne;
+                    }
+                }
+                else
+                    x++;
+            }
+            return emplacement;
+        }
+
+        public static int[] ChercherEmplacementFaireQuartoColonne(int numPiece)
+        {
+            Program.Piece pieceAPlacer = Program.pioche[numPiece];
+            int y = 0;
+            int[] emplacement = { -1, -1 };
+
+            while (emplacement[0] == -1 && y < Program.TAILLE) // tant qu'on n'a pas trouvé d'emplacement et qu'on n'a pas parcouru toutes les colonnes
+            {
+                if (Outils.CompterNbPiecesColonne(y) == 3)
+                {
+                    // On remplit un tableau contenant les 3 pièces de la colonne et la pièce qu'on doit placer
+                    Program.Piece[] pieces = new Program.Piece[4];
+                    pieces[0] = pieceAPlacer;
+                    int cpt = 1;
+                    int xEmplacementVideColonne = -1; // on en profite pour chercher quel emplacement de la colonne est vide
+                    for (int x = 0; x < Program.TAILLE; x++)
+                    {
+                        Program.Piece piece = Program.plateau[x, y];
+                        if (!piece.pieceNulle)
+                        {
+                            pieces[cpt] = piece;
+                            cpt++;
+                        }
+                        else
+                            xEmplacementVideColonne = x;
+                    }
+
+                    if (Outils.ComparerPieces(pieces)) // si cette fonction renvoie vrai, les 4 pièces ont un point commun donc on peut faire un quarto en plaçant la pièce sur cette colonne
+                    {
+                        emplacement[0] = xEmplacementVideColonne;
+                        emplacement[1] = y;
+                    }
+                }
+                else
+                    y++;
+            }
+            return emplacement;
+        }
 
 
 

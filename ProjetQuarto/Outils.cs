@@ -117,6 +117,26 @@ namespace ProjetQuarto
 
 
 
+        // Cherche s'il y a un point commun entre certaines pièces données
+        public static bool ComparerPieces(Program.Piece[] pieces)
+        {
+            int nbBlanc = 0;
+            int nbBas = 0;
+            int nbPlein = 0;
+            int nbRond = 0;
+            for (int i = 0; i < pieces.Length; i++)
+            {
+                Program.Piece p = pieces[i];
+                if (p.couleur == ConsoleColor.DarkYellow) nbBlanc++;
+                if (p.hauteur == 1) nbBas++;
+                if (p.remplie) nbPlein++;
+                if (p.forme == 'o') nbRond++;
+            }
+
+            return (nbBlanc == 0 || nbBlanc == 4 || nbBas == 0 || nbBas == 4
+                    || nbPlein == 0 || nbPlein == 4 || nbRond == 0 || nbRond == 4);
+        }
+
 
 
         public static bool ChercherQuartoOrientation(int x, int y, string orientationTestee, string critere = "pasTeste") // orientationTestee : ligne/colonne/diag1/diag2 ; critere : non obligatoire, vaut couleur/forme/remplissage/hauteur

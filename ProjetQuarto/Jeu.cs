@@ -147,7 +147,7 @@ namespace ProjetQuarto
             while (!Outils.TesterPlateauPlein() && !Program.finPartie);
 
             // Si on arrive ici, la partie est finie (si le joueur quitte la partie en cours, c'est qu'il a arrêté le programme avant d'arriver ici)
-            // Donc on supprime ici le fichier de sauvegarde, car on ne souhaite pas sauvegarder une partie déjà terminer
+            // Donc on supprime ici le fichier de sauvegarde, car on ne souhaite pas sauvegarder une partie déjà terminée
             Sauvegarde.SupprimerFichierSauvegarde();
         }
     }
