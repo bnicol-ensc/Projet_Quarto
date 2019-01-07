@@ -139,6 +139,39 @@ namespace ProjetQuarto
             return emplacement;
         }
 
+        public static int[] ChercherEmplacementFaireQuartoDiag1(int numPiece) // TODO vérifier cette fonction et l'utiliser
+        {
+            Program.Piece pieceAPlacer = Program.pioche[numPiece];
+            int[] emplacement = { -1, -1 };
+
+            if (Outils.CompterNbPiecesDiag1() == 3)
+            {
+                // On remplit un tableau contenant les 3 pièces de la diagonale et la pièce qu'on doit placer
+                Program.Piece[] pieces = new Program.Piece[4];
+                pieces[0] = pieceAPlacer;
+                int cpt = 1;
+                int iEmplacementVideDiag = -1; // on en profite pour chercher quel emplacement de la diagonale est vide
+                for (int i = 0; i < Program.TAILLE; i++)
+                {
+                    Program.Piece piece = Program.plateau[i, i];
+                    if (!piece.pieceNulle)
+                    {
+                        pieces[cpt] = piece;
+                        cpt++;
+                    }
+                    else
+                        iEmplacementVideDiag = i;
+                }
+
+                if (Outils.ComparerPieces(pieces)) // si cette fonction renvoie vrai, les 4 pièces ont un point commun donc on peut faire un quarto en plaçant la pièce sur cette diagonale
+                {
+                    emplacement[0] = iEmplacementVideDiag;
+                    emplacement[1] = iEmplacementVideDiag;
+                }
+            }
+            return emplacement;
+        }
+
 
 
 
