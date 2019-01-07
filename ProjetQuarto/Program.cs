@@ -34,16 +34,6 @@ namespace ProjetQuarto
                 Initialisation.InitialiserPlateau();
                 Initialisation.InitialiserPioche();
             }
-            /*int cpt = 0;
-            for (int i = 0; i < TAILLE; i ++)
-            {
-                for (int j = 0; j < TAILLE; j++)
-                {
-                    plateau[i, j] = pioche[cpt];
-                    cpt++;
-                }
-            }
-            AfficherPlateau();*/
             Jeu.Jouer();
 
             Console.ReadLine();
