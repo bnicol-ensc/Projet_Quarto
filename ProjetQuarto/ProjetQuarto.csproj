@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Affichage.cs" />
+    <Compile Include="IA.cs" />
     <Compile Include="Sauvegarde.cs" />
     <Compile Include="Initialisation.cs" />
     <Compile Include="Jeu.cs" />

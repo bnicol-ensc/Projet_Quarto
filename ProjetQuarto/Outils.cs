@@ -82,6 +82,38 @@ namespace ProjetQuarto
             }
             return nbPiecesRestantes;
         }
+        public static int CompterNbPiecesLigne(int x)
+        {
+            int nbPieces = 0;
+            for (int y = 0; y < Program.TAILLE; y++)
+                if (!Program.plateau[x, y].pieceNulle)
+                    nbPieces++;
+            return nbPieces;
+        }
+        public static int CompterNbPiecesColonne(int y)
+        {
+            int nbPieces = 0;
+            for (int x = 0; x < Program.TAILLE; x++)
+                if (!Program.plateau[x, y].pieceNulle)
+                    nbPieces++;
+            return nbPieces;
+        }
+        public static int CompterNbPiecesDiag1()
+        {
+            int nbPieces = 0;
+            for (int i = 0; i < Program.TAILLE; i++)
+                if (!Program.plateau[i, i].pieceNulle) // la diagonale de gauche à droite est composée de toutes les cases qui ont x=y
+                    nbPieces++;
+            return nbPieces;
+        }
+        public static int CompterNbPiecesDiag2()
+        {
+            int nbPieces = 0;
+            for (int x = 0, y = Program.TAILLE-1; x < Program.TAILLE; x++, y--)
+                if (!Program.plateau[x, y].pieceNulle)
+                    nbPieces++;
+            return nbPieces;
+        }
 
 
 
@@ -177,6 +209,8 @@ namespace ProjetQuarto
                 || (x != Program.TAILLE - y - 1 && ChercherQuartoOrientation(x, y, "diag2")); // on vérifie qu'on est sur la diagonale de droite à gauche avant de tester cette diagonale TODO idem au-dessus
         }
         
+
+
         public static Program.Piece ConvertirStringPiece(string[] ligne)
         {
             Program.Piece p = new Program.Piece();

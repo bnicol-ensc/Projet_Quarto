@@ -16,7 +16,7 @@ namespace ProjetQuarto
             public bool pieceNulle;
             public ConsoleColor couleur;
             public int hauteur; // 1 ou 2
-            public char forme; // '+' ou '*'
+            public char forme; // 'x' ou 'o'
             public bool remplie;
         }
         public static Piece[,] plateau = new Piece[4,4];

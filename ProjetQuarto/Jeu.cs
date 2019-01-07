@@ -4,17 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-/**
- * ATTENTION
- * L'ORDI N'A PASDETECTE LE QUARTO A SON TOUR DE JEU SUR LA DIAGONALE DE GAUCHE A DROITE
- * CREER UNE SAUVEGARDE POUR DEBUG
- **/
 
 namespace ProjetQuarto
 {
     class Jeu
     {
-        public static int DemanderPieceAuJoueur()
+        public static int DemanderPieceAuJoueur() // TODO fonction pas appelée ?
         {
             Affichage.AfficherPioche();
             Console.WriteLine("Quelle pièce voulez-vous donner à l'ordinateur ? Veuillez entrer le numéro de la pièce.");
@@ -25,28 +20,6 @@ namespace ProjetQuarto
                 piece = int.Parse(Saisie.SaisieJoueur()); // TODO on pourrait éventuellement mettre cette vérification dans Saisie.cs
             }
             return piece;
-        }
-        public static int DonnerPieceAuJoueur()
-        {
-            Random rand = new Random();
-            int nPiece = rand.Next(Outils.CompterPiecesRestantesPioche()); // on choisit un numéro dans le nombre de pièces restantes
-
-            bool trouve = false;
-            int i = 0;
-            int cpt = 0;
-
-            while (!trouve && i < Program.pioche.Length) // on cherche le numéro choisi dans la pioche (par exemple, si on a choisi le numéro 0 mais que la première case de la pioche est vide, ce sera la 2e case de la pioche)
-            {
-                if (!Program.pioche[i].pieceNulle)
-                {
-                    if (cpt == nPiece)
-                        trouve = true;
-                    cpt++;
-                }
-                i++;
-            }
-
-            return i - 1;
         }
 
 
@@ -73,30 +46,7 @@ namespace ProjetQuarto
 
             return new int[] { x, y };
         }
-        public static int[] PlacerPieceOrdi(int numPiece) // renvoie la position [x,y] de l'emplacement choisi
-        {
-            Random rand = new Random();
-            int x = 0;
-            do
-            {
-                x = rand.Next(4);
-            }
-            while (Outils.TesterLignePleine(x)); // tant que la ligne sur laquelle on veut placer le pion est déjà pleine, on cherche une autre ligne
-
-            int y = 0;
-            do
-            {
-                y = rand.Next(4);
-            }
-            while (!Program.plateau[x, y].pieceNulle);
-
-            // Une fois qu'on a trouvé un x et un y correspondant à une case vide, on place la pièce sur cette case et on enlève la pièce de la pioche
-            Program.plateau[x, y] = Program.pioche[numPiece];
-            Program.pioche[numPiece].pieceNulle = true;
-
-            return new int[] { x, y };
-        }
-
+        
 
 
         public static bool DemanderSiQuarto()
@@ -130,11 +80,11 @@ namespace ProjetQuarto
 
             return quartoOrdi;
         }
-
+        
         public static void JouerOrdi()
         {
-            int numPiece = DemanderPieceAuJoueur();
-            int[] emplacement = PlacerPieceOrdi(numPiece);
+            int numPiece = Jeu.DemanderPieceAuJoueur();
+            int[] emplacement = IA.PlacerPieceOrdiStrategie(numPiece);
             Affichage.AfficherPlateau();
             bool quarto = Outils.ChercherQuarto(emplacement[0], emplacement[1]);
             if (quarto)
@@ -147,7 +97,7 @@ namespace ProjetQuarto
         {
             Affichage.AfficherPlateau();
 
-            int numPiece = DonnerPieceAuJoueur();
+            int numPiece = IA.DonnerPieceAuJoueurStrategie();
             Console.WriteLine("L'ordinateur vous demande de jouer la pièce suivante :");
             Affichage.AfficherPiece(numPiece);
 
