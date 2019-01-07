@@ -87,7 +87,7 @@ namespace ProjetQuarto
 
 
 
-        public static bool ChercherQuartoOrientation(int x, int y, string orientationTestee, string critere = "pasTeste") // orientationTestee : ligne/colonne/diag1/diag2 ; critere : non obligatoire, vaut couleur/forme/remplie/hauteur
+        public static bool ChercherQuartoOrientation(int x, int y, string orientationTestee, string critere = "pasTeste") // orientationTestee : ligne/colonne/diag1/diag2 ; critere : non obligatoire, vaut couleur/forme/remplissage/hauteur
         {
             if ((orientationTestee == "ligne" && !TesterLignePleine(x)) // si on teste la ligne et qu'elle n'est pas pleine, il ne peut pas y avoir Quarto
                  || (orientationTestee == "colonne" && !TesterColonnePleine(y))  // si on teste la colonne et qu'elle n'est pas pleine, il ne peut pas y avoir Quarto
@@ -114,18 +114,20 @@ namespace ProjetQuarto
                 if (p.couleur == ConsoleColor.DarkYellow) nbBlanc++;
                 if (p.hauteur == 1) nbBas++;
                 if (p.remplie) nbPlein++;
-                if (p.forme == '*') nbRond++;
+                if (p.forme == 'o') nbRond++;
             }
 
-            // Si le critère est la valeur par défaut on ne s'en servira pas. S'il est renseigné, c'est qu'on vérifie un quarto déclaré par le joueur, dans ce cas on ne veut pas faire tous les affichages suivants.
+            // Si le critère est la valeur par défaut, on ne s'en servira pas. S'il est renseigné, c'est qu'on vérifie un quarto déclaré par le joueur, dans ce cas on ne veut pas faire tous les affichages suivants.
             if (critere == "couleur" && (nbBlanc == 0 || nbBlanc == 4))
                 return true;
             if (critere == "forme" && (nbRond == 0 || nbRond == 4))
                 return true;
             if (critere == "hauteur" && (nbBas == 0 || nbBas == 4))
                 return true;
-            if (critere == "remplie" && (nbPlein == 0 || nbPlein == 4))
+            if (critere == "remplissage" && (nbPlein == 0 || nbPlein == 4))
                 return true;
+            if (critere != "pasTeste") // Si le critère est renseigné c'est qu'on vérifie un quarto du joueur ; donc si on n'a pas trouvé de quarto sur le critère que le joueur a entré, on renvoie faux.
+                return false;
             
             string orientation = orientationTestee;
             if (orientationTestee == "diag1")

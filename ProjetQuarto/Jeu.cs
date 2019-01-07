@@ -110,15 +110,23 @@ namespace ProjetQuarto
             string dimension = Saisie.SaisieDimension();
             string critere = Saisie.SaisieCritere();
 
-            bool quartoOrdi = false;
-            
+            bool quartoOrdi = Outils.ChercherQuartoOrientation(x, y, dimension, critere);
+
             if (quartoOrdi)
             {
-                Console.WriteLine("Bravo, il y a bien un quarto, vous avez gagné !");
+                Console.WriteLine("Bravo, il y a bien un quarto sur le critère " + critere + " sur la " + dimension + " " + (dimension == "ligne" ? (x + 1) : (y + 1)) + ", vous avez gagné !");
                 Program.finPartie = true;
             }
             else
-                Console.WriteLine("Désolé, il n'y a pas de quarto ou l'ordinateur ne trouve pas votre quarto. La partie continue.");
+            {
+                Console.WriteLine("Désolé, il n'y a pas de quarto sur le critère " + critere + " sur la " + dimension + " " + (dimension == "ligne" ? (x + 1) : (y + 1)) + ".");
+                quartoOrdi = Outils.ChercherQuarto(x, y);
+                if (quartoOrdi)
+                {
+                    Console.WriteLine("L'ordinateur a trouvé un quarto que vous n'avez pas vu, il a donc gagné !");
+                    Program.finPartie = true;
+                }
+            }
 
             return quartoOrdi;
         }
@@ -131,7 +139,7 @@ namespace ProjetQuarto
             bool quarto = Outils.ChercherQuarto(emplacement[0], emplacement[1]);
             if (quarto)
             {
-                Console.WriteLine("L'ordinateur a fait un quarto ! TODO préciser sur quels critères");
+                Console.WriteLine("L'ordinateur a gagné !");
                 Program.finPartie = true;
             }
         }

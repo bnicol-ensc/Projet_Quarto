@@ -29,10 +29,10 @@ namespace ProjetQuarto
 
         public static string SaisieCritere() // le critère doit être dans [couleur/forme/hauteur/remplie]
         {
-            Console.WriteLine("Sur quel critère ? [couleur/forme/hauteur/remplie]");
-            return SaisieDans(new string[] { "couleur", "forme", "hauteur", "remplie" });
+            Console.WriteLine("Sur quel critère ? [couleur/forme/hauteur/remplissage]");
+            return SaisieDans(new string[] { "couleur", "forme", "hauteur", "remplissage" });
         }
-
+        
         public static string SaisieDans(string[] listePossibilites) // Demande au joueur de saisir une valeur contenue dans la liste passée en paramètre
         {
             string valeur = SaisieJoueur().ToLower();
