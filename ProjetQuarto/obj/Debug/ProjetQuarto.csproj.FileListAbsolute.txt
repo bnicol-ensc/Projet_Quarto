@@ -1,2 +1,0 @@
-H:\1A\Programmation\Projet_Quarto\ProjetQuarto\bin\Debug\ProjetQuarto.exe.config
-H:\1A\Programmation\Projet_Quarto\ProjetQuarto\obj\Debug\ProjetQuarto.csprojResolveAssemblyReference.cache
