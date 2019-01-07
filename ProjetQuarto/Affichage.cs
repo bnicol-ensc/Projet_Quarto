@@ -89,8 +89,8 @@ namespace ProjetQuarto
         }
         public static void AfficherPioche()
         {
-            AfficherMoitiePioche(0, Program.pioche.Length / 2);
-            AfficherMoitiePioche(Program.pioche.Length / 2, Program.pioche.Length);
+            AfficherMoitiePioche(0, Program.pioche.Length / 2); //On affiche tout d'abord la premiere moitié de la pioche
+            AfficherMoitiePioche(Program.pioche.Length / 2, Program.pioche.Length); //Puis la seconde moitié car le terminal n'est pas assez large pour tout afficher en une ligne
         }
         public static void AfficherPiece(int numPiece)
         {
