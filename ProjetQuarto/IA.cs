@@ -53,7 +53,9 @@ namespace ProjetQuarto
                 emplacement = ChercherEmplacementFaireQuartoColonne(numPiece);
                 if (emplacement[0] == -1) // si on n'a pas trouvé de quarto possible pour une colonne
                 {
-                    // TODO idem pour les diags
+                    emplacement = ChercherEmplacementFaireQuartoDiag1(numPiece);
+                    if (emplacement[0] == -1)
+                        emplacement = ChercherEmplacementFaireQuartoDiag2(numPiece);
                 }
             }
 
@@ -93,9 +95,11 @@ namespace ProjetQuarto
                         emplacement[0] = x;
                         emplacement[1] = yEmplacementVideLigne;
                     }
+                    else
+                        x++;
                 }
                 else
-                    x++;
+                    x++; // on ne passe que dans l'un des 2 "else x++", et on passe forcément dans l'un des deux si on n'a pas trouvé de place où faire un quarto
             }
             return emplacement;
         }
@@ -132,14 +136,16 @@ namespace ProjetQuarto
                         emplacement[0] = xEmplacementVideColonne;
                         emplacement[1] = y;
                     }
+                    else
+                        y++;
                 }
                 else
-                    y++;
+                    y++;  // on ne passe que dans l'un des 2 "else y++", et on passe forcément dans l'un des deux si on n'a pas trouvé de place où faire un quarto
             }
             return emplacement;
         }
 
-        public static int[] ChercherEmplacementFaireQuartoDiag1(int numPiece) // TODO vérifier cette fonction et l'utiliser
+        public static int[] ChercherEmplacementFaireQuartoDiag1(int numPiece)
         {
             Program.Piece pieceAPlacer = Program.pioche[numPiece];
             int[] emplacement = { -1, -1 };
@@ -167,6 +173,39 @@ namespace ProjetQuarto
                 {
                     emplacement[0] = iEmplacementVideDiag;
                     emplacement[1] = iEmplacementVideDiag;
+                }
+            }
+            return emplacement;
+        }
+
+        public static int[] ChercherEmplacementFaireQuartoDiag2(int numPiece)
+        {
+            Program.Piece pieceAPlacer = Program.pioche[numPiece];
+            int[] emplacement = { -1, -1 };
+
+            if (Outils.CompterNbPiecesDiag2() == 3)
+            {
+                // On remplit un tableau contenant les 3 pièces de la diagonale et la pièce qu'on doit placer
+                Program.Piece[] pieces = new Program.Piece[4];
+                pieces[0] = pieceAPlacer;
+                int cpt = 1;
+                int iEmplacementVideDiag = -1; // on en profite pour chercher quel emplacement de la diagonale est vide
+                for (int i = 0; i < Program.TAILLE; i++)
+                {
+                    Program.Piece piece = Program.plateau[i, Program.TAILLE - 1 - i];
+                    if (!piece.pieceNulle)
+                    {
+                        pieces[cpt] = piece;
+                        cpt++;
+                    }
+                    else
+                        iEmplacementVideDiag = i;
+                }
+
+                if (Outils.ComparerPieces(pieces)) // si cette fonction renvoie vrai, les 4 pièces ont un point commun donc on peut faire un quarto en plaçant la pièce sur cette diagonale
+                {
+                    emplacement[0] = iEmplacementVideDiag;
+                    emplacement[1] = Program.TAILLE - 1 - iEmplacementVideDiag;
                 }
             }
             return emplacement;

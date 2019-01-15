@@ -51,7 +51,7 @@ namespace ProjetQuarto
             bool pleine = true;
             int i = Program.TAILLE - 1;
             int j = 0;
-            while (pleine && i < Program.TAILLE)
+            while (pleine && j < Program.TAILLE)
             {
                 if (Program.plateau[i, j].pieceNulle)
                     pleine = false;
@@ -225,8 +225,8 @@ namespace ProjetQuarto
         public static bool ChercherQuarto(int x, int y) // x et y sont les coordonnées de la dernière pièce posée, par l'ordi ou par le joueur (on regarde si un Quarto n'a pas échappé au joueur)
         {
             return ChercherQuartoOrientation(x, y, "ligne") || ChercherQuartoOrientation(x, y, "colonne")
-                || (x != y && ChercherQuartoOrientation(x, y, "diag1")) // on vérifie qu'on est sur la diagonale de gauche à droite avant de tester cette diagonale TODO vérifier l'ordre dans lequel sont testées les conditions
-                || (x != Program.TAILLE - y - 1 && ChercherQuartoOrientation(x, y, "diag2")); // on vérifie qu'on est sur la diagonale de droite à gauche avant de tester cette diagonale TODO idem au-dessus
+                || (x == y && ChercherQuartoOrientation(x, y, "diag1")) // on vérifie qu'on est sur la diagonale de gauche à droite avant de tester cette diagonale TODO vérifier l'ordre dans lequel sont testées les conditions
+                || (x == Program.TAILLE - y - 1 && ChercherQuartoOrientation(x, y, "diag2")); // on vérifie qu'on est sur la diagonale de droite à gauche avant de tester cette diagonale TODO idem au-dessus
         }
         
 
