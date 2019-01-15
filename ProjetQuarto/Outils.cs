@@ -72,12 +72,12 @@ namespace ProjetQuarto
             }
             return plein;
         }
-        public static int CompterPiecesRestantesPioche()
+        public static int CompterPiecesRestantesPioche(Program.Piece[] pioche)
         {
             int nbPiecesRestantes = 0;
-            for (int i = 0; i < Program.pioche.Length; i++)
+            for (int i = 0; i < pioche.Length; i++)
             {
-                if (!Program.pioche[i].pieceNulle)
+                if (!pioche[i].pieceNulle)
                     nbPiecesRestantes++;
             }
             return nbPiecesRestantes;
@@ -98,21 +98,116 @@ namespace ProjetQuarto
                     nbPieces++;
             return nbPieces;
         }
-        public static int CompterNbPiecesDiag1()
+        public static int CompterNbPiecesDiag(int numDiag) // 1 : diagonale de gauche à droite, 2 : diagonale de droite à gauche
         {
             int nbPieces = 0;
-            for (int i = 0; i < Program.TAILLE; i++)
-                if (!Program.plateau[i, i].pieceNulle) // la diagonale de gauche à droite est composée de toutes les cases qui ont x=y
-                    nbPieces++;
-            return nbPieces;
-        }
-        public static int CompterNbPiecesDiag2()
-        {
-            int nbPieces = 0;
-            for (int x = 0, y = Program.TAILLE-1; x < Program.TAILLE; x++, y--)
+            for (int x = 0; x < Program.TAILLE; x++)
+            {
+                int y = x; // la diagonale de gauche à droite est composée de toutes les cases qui ont x=y
+                if (numDiag == 2)
+                    y = Program.TAILLE - 1 - x; // si on est sur la diagonale de droite à gauche
+
                 if (!Program.plateau[x, y].pieceNulle)
                     nbPieces++;
+            }
             return nbPieces;
+        }
+
+        // Remplit un tableau de taille Program.TAILLE avec toutes les pièces non nulles d'une ligne (si la ligne n'est pas remplie, les dernières cases du tableau seront vides)
+        public static Program.Piece[] RemplirTableauPiecesLigne(int x)
+        {
+            Program.Piece[] piecesLigne = new Program.Piece[Program.TAILLE];
+            int cpt = 0;
+            for (int y = 0; y < Program.TAILLE; y++)
+            {
+                if (!Program.plateau[x, y].pieceNulle)
+                {
+                    piecesLigne[cpt] = Program.plateau[x, y];
+                    cpt++;
+                }
+            }
+            return piecesLigne;
+        }
+        // Remplit un tableau de taille Program.TAILLE avec toutes les pièces non nulles d'une colonne (si la colonne n'est pas remplie, les dernières cases du tableau seront vides)
+        public static Program.Piece[] RemplirTableauPiecesColonne(int y)
+        {
+            Program.Piece[] piecesColonne = new Program.Piece[Program.TAILLE];
+            int cpt = 0;
+            for (int x = 0; x < Program.TAILLE; x++)
+            {
+                if (!Program.plateau[x, y].pieceNulle)
+                {
+                    piecesColonne[cpt] = Program.plateau[x, y];
+                    cpt++;
+                }
+            }
+            return piecesColonne;
+        }
+        // Remplit un tableau de taille Program.TAILLE avec toutes les pièces non nulles d'une diagonale (si la diagonale n'est pas remplie, les dernières cases du tableau seront vides)
+        public static Program.Piece[] RemplirTableauPiecesDiag(int numDiag) // 1 = diagonale de gauche à droite, 2 = diagonale de droite à gauche
+        {
+            Program.Piece[] piecesDiag = new Program.Piece[Program.TAILLE];
+            int cpt = 0;
+            for (int x = 0; x < Program.TAILLE; x++)
+            {
+                int y = x;
+                if (numDiag == 2)
+                    y = Program.TAILLE - 1 - x;
+
+                if (!Program.plateau[x, y].pieceNulle)
+                {
+                    piecesDiag[cpt] = Program.plateau[x, y];
+                    cpt++;
+                }
+            }
+            return piecesDiag;
+        }
+
+        // Cherche l'emplacement vide d'une ligne presque pleine, renvoie -1 si ne trouve pas d'emplacement vide
+        public static int TrouverEmplacementYVideLigne(int x)
+        {
+            int emplacementY = -1;
+            int y = 0;
+            while (emplacementY == -1 && y < Program.TAILLE)
+            {
+                if (Program.plateau[x, y].pieceNulle)
+                    emplacementY = y;
+                else
+                    y++;
+            }
+            return emplacementY;
+        }
+        // Cherche l'emplacement vide d'une colonne presque pleine, renvoie -1 si ne trouve pas d'emplacement vide
+        public static int TrouverEmplacementXVideColonne(int y)
+        {
+            int emplacementX = -1;
+            int x = 0;
+            while (emplacementX == -1 && x < Program.TAILLE)
+            {
+                if (Program.plateau[x, y].pieceNulle)
+                    emplacementX = x;
+                else
+                    x++;
+            }
+            return emplacementX;
+        }
+        // Cherche l'emplacement vide d'une diagonale presque pleine, renvoie -1 si ne trouve pas d'emplacement vide
+        public static int TrouverEmplacementXVideDiag(int numDiag) // 1 : diagonale de gauche à droite, 2 : diagonale de droite à gauche
+        {
+            int emplacementX = -1;
+            int x = 0;
+            while (emplacementX == -1 && x < Program.TAILLE)
+            {
+                int y = x;
+                if (numDiag == 2)
+                    y = Program.TAILLE - 1 - x;
+
+                if (Program.plateau[x, y].pieceNulle)
+                    emplacementX = x;
+                else
+                    x++;
+            }
+            return emplacementX;
         }
 
 
