@@ -83,6 +83,7 @@ namespace ProjetQuarto
         
         public static void JouerOrdi()
         {
+            Affichage.AfficherPlateau();
             int numPiece = Jeu.DemanderPieceAuJoueur();
             int[] emplacement = IA.PlacerPieceOrdiStrategie(numPiece);
             Affichage.AfficherPlateau();
@@ -96,8 +97,8 @@ namespace ProjetQuarto
         public static void JouerJoueur()
         {
             Affichage.AfficherPlateau();
-
             int numPiece = IA.DonnerPieceAuJoueurStrategie();
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine("L'ordinateur vous demande de jouer la pièce suivante :");
             Affichage.AfficherPiece(numPiece);
 
@@ -109,13 +110,19 @@ namespace ProjetQuarto
             if (quartoJoueur)
                 VerifierQuartoJoueur(emplacement[0], emplacement[1]);
             else
+            {
+                Console.ForegroundColor = ConsoleColor.DarkCyan;
                 Console.WriteLine("Vous avez déclaré qu'il n'y avait pas de quarto. La partie continue.");
+                Console.ForegroundColor = ConsoleColor.Gray;
+            }
         }
         public static void DonnerTourDeJeu(int numJoueur)
         {
             if (numJoueur == 0)
             {
+                Console.ForegroundColor = ConsoleColor.DarkCyan;
                 Console.WriteLine("\nC'est au tour de l'ordinateur de jouer !");
+                Console.ForegroundColor = ConsoleColor.Gray;
                 JouerOrdi();
             }
             else
