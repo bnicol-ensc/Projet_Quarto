@@ -110,5 +110,13 @@ namespace ProjetQuarto
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine();
         }
+
+        // Affiche un message, sans retour à la ligne, de la couleur demandée (couleur facultative, par défaut gris clair)
+        public static void AfficherMessage(string message, ConsoleColor couleur = ConsoleColor.Gray)
+        {
+            Console.ForegroundColor = couleur;
+            Console.Write(message);
+            Console.ForegroundColor = ConsoleColor.Gray;
+        }
     }
 }

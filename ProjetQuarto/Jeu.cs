@@ -9,36 +9,20 @@ namespace ProjetQuarto
 {
     class Jeu
     {
-        public static int DemanderPieceAuJoueur() // TODO fonction pas appelée ?
+        public static int DemanderPieceAuJoueur()
         {
             Affichage.AfficherPioche();
-            Console.WriteLine("Quelle pièce voulez-vous donner à l'ordinateur ? Veuillez entrer le numéro de la pièce.");
-            int piece = int.Parse(Saisie.SaisieJoueur());
-            while (piece < 0 || piece > 15 || Program.pioche[piece].pieceNulle)
-            {
-                Console.WriteLine("La pièce que vous avez choisie n'est pas dans le tableau. Entrez un numéro de pièce valide.");
-                piece = int.Parse(Saisie.SaisieJoueur()); // TODO on pourrait éventuellement mettre cette vérification dans Saisie.cs
-            }
-            return piece;
+            Affichage.AfficherMessage("Quelle pièce voulez-vous donner à l'ordinateur ? Veuillez entrer le numéro de la pièce.\n", ConsoleColor.DarkCyan);
+            return Saisie.SaisirPieceJoueur();
         }
 
 
 
         public static int[] PlacerPieceJoueur(int numPiece)
         {
-            Console.WriteLine("Où voulez-vous placer la pièce ?");
-            Console.Write("X [1;" + Program.TAILLE + "] : ");
-            int x = int.Parse(Saisie.SaisieJoueur()) - 1;
-            Console.Write("Y [1;" + Program.TAILLE + "] : ");
-            int y = int.Parse(Saisie.SaisieJoueur()) - 1;
-            while (!Program.plateau[x, y].pieceNulle)
-            {
-                Console.WriteLine("Cette case est déjà prise. Entrez une nouvelle case.");
-                Console.Write("X : ");
-                x = int.Parse(Saisie.SaisieJoueur()) - 1;
-                Console.Write("Y : ");
-                y = int.Parse(Saisie.SaisieJoueur()) - 1;
-            }
+            int[] emplacement = Saisie.SaisirEmplacementJoueur(); // on demande au joueur de choisir un emplacement
+            int x = emplacement[0];
+            int y = emplacement[1];
 
             // Une fois que le joueur a donné un x et un y correspondant à une case vide, on place la pièce sur cette case et on enlève la pièce de la pioche
             Program.plateau[x, y] = Program.pioche[numPiece];
@@ -48,32 +32,29 @@ namespace ProjetQuarto
         }
         
 
-
-        public static bool DemanderSiQuarto()
-        {
-            Console.WriteLine("Voyez-vous un QUARTO (alignement de 4 pièces ayant toutes une caractéristique en commun, en ligne, colonne ou diagonale) ? [O/N]");
-            return ((Saisie.SaisieJoueur()).ToUpper() == "O");
-        }
         
         public static bool VerifierQuartoJoueur(int x, int y)
         {
-            string dimension = Saisie.SaisieDimension();
-            string critere = Saisie.SaisieCritere();
+            string dimension = Saisie.SaisirDimension();
+            string critere = Saisie.SaisirCritere();
 
             bool quartoOrdi = Outils.ChercherQuartoOrientation(x, y, dimension, critere);
 
             if (quartoOrdi)
             {
-                Console.WriteLine("Bravo, il y a bien un quarto sur le critère " + critere + " sur la " + dimension + " " + (dimension == "ligne" ? (x + 1) : (y + 1)) + ", vous avez gagné !");
+                Affichage.AfficherMessage("Bravo, il y a bien un quarto ", ConsoleColor.DarkCyan);
+                Affichage.AfficherMessage("sur le critère " + critere + " sur la " + dimension + " " + (dimension == "ligne" ? (x + 1) : (y + 1)) + ", ");
+                Affichage.AfficherMessage("vous avez gagné !", ConsoleColor.DarkCyan);
                 Program.finPartie = true;
             }
             else
             {
-                Console.WriteLine("Désolé, il n'y a pas de quarto sur le critère " + critere + " sur la " + dimension + " " + (dimension == "ligne" ? (x + 1) : (y + 1)) + ".");
+                Affichage.AfficherMessage("Désolé, il n'y a pas de quarto ", ConsoleColor.DarkCyan);
+                Affichage.AfficherMessage("sur le critère " + critere + " sur la " + dimension + " " + (dimension == "ligne" ? (x + 1) : (y + 1)) + ".");
                 quartoOrdi = Outils.ChercherQuarto(x, y);
                 if (quartoOrdi)
                 {
-                    Console.WriteLine("L'ordinateur a trouvé un quarto que vous n'avez pas vu, il a donc gagné !");
+                    Affichage.AfficherMessage("L'ordinateur a trouvé un quarto que vous n'avez pas vu, il a donc gagné !", ConsoleColor.DarkCyan);
                     Program.finPartie = true;
                 }
             }
@@ -90,7 +71,7 @@ namespace ProjetQuarto
             bool quarto = Outils.ChercherQuarto(emplacement[0], emplacement[1]);
             if (quarto)
             {
-                Console.WriteLine("L'ordinateur a gagné !");
+                Affichage.AfficherMessage("L'ordinateur a gagné !", ConsoleColor.DarkCyan);
                 Program.finPartie = true;
             }
         }
@@ -99,47 +80,38 @@ namespace ProjetQuarto
             Affichage.AfficherPlateau();
             int numPiece = IA.DonnerPieceAuJoueurStrategie();
             Console.ForegroundColor = ConsoleColor.DarkCyan;
-            Console.WriteLine("L'ordinateur vous demande de jouer la pièce suivante :");
+            Affichage.AfficherMessage("L'ordinateur vous demande de jouer la pièce suivante :", ConsoleColor.DarkCyan);
             Affichage.AfficherPiece(numPiece);
 
             int[] emplacement = PlacerPieceJoueur(numPiece);
 
             Affichage.AfficherPlateau();
-            bool quartoJoueur = DemanderSiQuarto();
+            bool quartoJoueur = Saisie.DemanderSiQuarto();
 
             if (quartoJoueur)
                 VerifierQuartoJoueur(emplacement[0], emplacement[1]);
             else
-            {
-                Console.ForegroundColor = ConsoleColor.DarkCyan;
-                Console.WriteLine("Vous avez déclaré qu'il n'y avait pas de quarto. La partie continue.");
-                Console.ForegroundColor = ConsoleColor.Gray;
-            }
+                Affichage.AfficherMessage("Vous avez déclaré qu'il n'y avait pas de quarto. La partie continue.");
         }
         public static void DonnerTourDeJeu(int numJoueur)
         {
             if (numJoueur == 0)
             {
-                Console.ForegroundColor = ConsoleColor.DarkCyan;
-                Console.WriteLine("\nC'est au tour de l'ordinateur de jouer !");
-                Console.ForegroundColor = ConsoleColor.Gray;
+                Affichage.AfficherMessage("\nC'est au tour de l'ordinateur de jouer !\n");
                 JouerOrdi();
             }
             else
             {
-                Console.WriteLine("\nC'est à votre tour de jouer !");
+                Affichage.AfficherMessage("\nC'est à votre tour de jouer !\n");
                 JouerJoueur();
             }
         }
 
         public static void Jouer()
         {
-            /*Console.WriteLine("Quel est votre nom ?");
-            string nomJoueur = Affichage.RecupEntreeJoueur();*/
-
             if (Program.tourJoueur == -1)
             {
-                Console.WriteLine("Tirage au sort du joueur qui va commencer la partie...");
+                Affichage.AfficherMessage("Tirage au sort du joueur qui va commencer la partie...\n");
                 Random rand = new Random();
                 Program.tourJoueur = rand.Next(2);
             }
@@ -148,10 +120,10 @@ namespace ProjetQuarto
             {
                 DonnerTourDeJeu(Program.tourJoueur);
                 Program.tourJoueur = (Program.tourJoueur + 1) % 2;
-                if (!Outils.TesterPlateauPlein() && !Program.finPartie)
-                    Sauvegarde.SauvegarderPartie(); // On sauvegarde la partie à chaque tour de jeu TODO modifier le fichier de sauvegarde au lieu de le refaire à chaque fois
+                if (!Outils.TesterPiocheVide() && !Program.finPartie)
+                    Sauvegarde.SauvegarderPartie(); // On sauvegarde la partie à chaque tour de jeu
             }
-            while (!Outils.TesterPlateauPlein() && !Program.finPartie);
+            while (!Outils.TesterPiocheVide() && !Program.finPartie);
 
             // Si on arrive ici, la partie est finie (si le joueur quitte la partie en cours, c'est qu'il a arrêté le programme avant d'arriver ici)
             // Donc on supprime ici le fichier de sauvegarde, car on ne souhaite pas sauvegarder une partie déjà terminée
