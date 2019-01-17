@@ -12,7 +12,8 @@ namespace ProjetQuarto
         public static int DemanderPieceAuJoueur()
         {
             Affichage.AfficherPioche();
-            Affichage.AfficherMessage("Quelle pièce voulez-vous donner à l'ordinateur ? Veuillez entrer le numéro de la pièce.\n", ConsoleColor.DarkCyan);
+            Affichage.AfficherMessage("Quelle pièce voulez-vous donner à l'ordinateur ? ", ConsoleColor.DarkCyan);
+            Affichage.AfficherMessage("Veuillez entrer le numéro de la pièce.\n");
             return Saisie.SaisirPieceJoueur();
         }
 
