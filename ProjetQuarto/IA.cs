@@ -60,10 +60,9 @@ namespace ProjetQuarto
                 }
             }
 
-            return emplacement; // TODO compléter la fonction
+            return emplacement;
         }
 
-        // TODO peut-être rassembler les fonctions suivantes ?
         public static int[] ChercherEmplacementFaireQuartoLigne(int numPiece)
         {
             Program.Piece pieceAPlacer = Program.pioche[numPiece];
