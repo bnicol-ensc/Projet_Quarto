@@ -60,17 +60,17 @@ namespace ProjetQuarto
             }
             return pleine;
         }
-        public static bool TesterPiocheVide()
-        { // on pourrait utiliser la fonction qui compte le nombre de pièces restantes dans la pioche, mais cet algorithme est légèrement plus optimisé, car il s'arrête dès qu'il a trouvé une pièce dans la pioche.
-            bool vide = true;
+        public static bool TesterPlateauPlein()
+        {
+            bool plein = true;
             int i = 0;
-            while (vide && i < Program.pioche.Length) // on parcourt la pioche, dès qu'on trouve une pièce c'est que la pioche n'est pas pleine donc on sort de la boucle
+            while (plein && i < Program.TAILLE) // on parcourt les lignes du plateau, dès qu'on en trouve une vide c'est que le plateau n'est pas plein donc on sort de la boucle
             {
-                if (!Program.pioche[i].pieceNulle)
-                    vide = false;
+                if (!TesterLignePleine(i))
+                    plein = false;
                 i++;
             }
-            return vide;
+            return plein;
         }
         public static int CompterPiecesRestantesPioche(Program.Piece[] pioche)
         {

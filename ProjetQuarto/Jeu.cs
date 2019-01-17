@@ -121,10 +121,10 @@ namespace ProjetQuarto
             {
                 DonnerTourDeJeu(Program.tourJoueur);
                 Program.tourJoueur = (Program.tourJoueur + 1) % 2;
-                if (!Outils.TesterPiocheVide() && !Program.finPartie)
+                if (!Outils.TesterPlateauPlein() && !Program.finPartie)
                     Sauvegarde.SauvegarderPartie(); // On sauvegarde la partie à chaque tour de jeu
             }
-            while (!Outils.TesterPiocheVide() && !Program.finPartie);
+            while (!Outils.TesterPlateauPlein() && !Program.finPartie);
 
             // Si on arrive ici, la partie est finie (si le joueur quitte la partie en cours, c'est qu'il a arrêté le programme avant d'arriver ici)
             // Donc on supprime ici le fichier de sauvegarde, car on ne souhaite pas sauvegarder une partie déjà terminée
